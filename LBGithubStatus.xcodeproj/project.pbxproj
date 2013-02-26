@@ -18,9 +18,14 @@
 		9FC11D5A16DD13130076F1B0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FC11D5916DD13130076F1B0 /* Default-568h@2x.png */; };
 		9FC11D5D16DD13130076F1B0 /* LBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC11D5C16DD13130076F1B0 /* LBViewController.m */; };
 		9FC11D6016DD13130076F1B0 /* LBViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FC11D5E16DD13130076F1B0 /* LBViewController.xib */; };
+		9FC11D6C16DD13C20076F1B0 /* LBGithubStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC11D6716DD13C20076F1B0 /* LBGithubStatus.m */; };
+		9FC11D6D16DD13C20076F1B0 /* LBGithubStatusMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC11D6916DD13C20076F1B0 /* LBGithubStatusMessage.m */; };
+		9FC11D6E16DD13C20076F1B0 /* LBGithubStatusAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC11D6B16DD13C20076F1B0 /* LBGithubStatusAPIClient.m */; };
+		D984562E0F6947B58A73675C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9D4808B1B5846A0B290E2E2 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		205AB52AF5634294A61F330B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		9FC11D4016DD13130076F1B0 /* LBGithubStatus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LBGithubStatus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FC11D4316DD13130076F1B0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9FC11D4516DD13130076F1B0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -37,6 +42,13 @@
 		9FC11D5B16DD13130076F1B0 /* LBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LBViewController.h; sourceTree = "<group>"; };
 		9FC11D5C16DD13130076F1B0 /* LBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LBViewController.m; sourceTree = "<group>"; };
 		9FC11D5F16DD13130076F1B0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/LBViewController.xib; sourceTree = "<group>"; };
+		9FC11D6616DD13C20076F1B0 /* LBGithubStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBGithubStatus.h; sourceTree = "<group>"; };
+		9FC11D6716DD13C20076F1B0 /* LBGithubStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBGithubStatus.m; sourceTree = "<group>"; };
+		9FC11D6816DD13C20076F1B0 /* LBGithubStatusMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBGithubStatusMessage.h; sourceTree = "<group>"; };
+		9FC11D6916DD13C20076F1B0 /* LBGithubStatusMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBGithubStatusMessage.m; sourceTree = "<group>"; };
+		9FC11D6A16DD13C20076F1B0 /* LBGithubStatusAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBGithubStatusAPIClient.h; sourceTree = "<group>"; };
+		9FC11D6B16DD13C20076F1B0 /* LBGithubStatusAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBGithubStatusAPIClient.m; sourceTree = "<group>"; };
+		F9D4808B1B5846A0B290E2E2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +59,7 @@
 				9FC11D4416DD13130076F1B0 /* UIKit.framework in Frameworks */,
 				9FC11D4616DD13130076F1B0 /* Foundation.framework in Frameworks */,
 				9FC11D4816DD13130076F1B0 /* CoreGraphics.framework in Frameworks */,
+				D984562E0F6947B58A73675C /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +72,7 @@
 				9FC11D4916DD13130076F1B0 /* LBGithubStatus */,
 				9FC11D4216DD13130076F1B0 /* Frameworks */,
 				9FC11D4116DD13130076F1B0 /* Products */,
+				205AB52AF5634294A61F330B /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -76,6 +90,7 @@
 				9FC11D4316DD13130076F1B0 /* UIKit.framework */,
 				9FC11D4516DD13130076F1B0 /* Foundation.framework */,
 				9FC11D4716DD13130076F1B0 /* CoreGraphics.framework */,
+				F9D4808B1B5846A0B290E2E2 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -83,11 +98,9 @@
 		9FC11D4916DD13130076F1B0 /* LBGithubStatus */ = {
 			isa = PBXGroup;
 			children = (
-				9FC11D5216DD13130076F1B0 /* LBAppDelegate.h */,
-				9FC11D5316DD13130076F1B0 /* LBAppDelegate.m */,
-				9FC11D5B16DD13130076F1B0 /* LBViewController.h */,
-				9FC11D5C16DD13130076F1B0 /* LBViewController.m */,
-				9FC11D5E16DD13130076F1B0 /* LBViewController.xib */,
+				9FC11D6F16DD13D60076F1B0 /* Example */,
+				9FC11D7016DD13E30076F1B0 /* Model */,
+				9FC11D7116DD13F40076F1B0 /* Network Extensions */,
 				9FC11D4A16DD13130076F1B0 /* Supporting Files */,
 			);
 			path = LBGithubStatus;
@@ -107,6 +120,38 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9FC11D6F16DD13D60076F1B0 /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				9FC11D5216DD13130076F1B0 /* LBAppDelegate.h */,
+				9FC11D5316DD13130076F1B0 /* LBAppDelegate.m */,
+				9FC11D5B16DD13130076F1B0 /* LBViewController.h */,
+				9FC11D5C16DD13130076F1B0 /* LBViewController.m */,
+				9FC11D5E16DD13130076F1B0 /* LBViewController.xib */,
+			);
+			name = Example;
+			sourceTree = "<group>";
+		};
+		9FC11D7016DD13E30076F1B0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9FC11D6616DD13C20076F1B0 /* LBGithubStatus.h */,
+				9FC11D6716DD13C20076F1B0 /* LBGithubStatus.m */,
+				9FC11D6816DD13C20076F1B0 /* LBGithubStatusMessage.h */,
+				9FC11D6916DD13C20076F1B0 /* LBGithubStatusMessage.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		9FC11D7116DD13F40076F1B0 /* Network Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9FC11D6A16DD13C20076F1B0 /* LBGithubStatusAPIClient.h */,
+				9FC11D6B16DD13C20076F1B0 /* LBGithubStatusAPIClient.m */,
+			);
+			name = "Network Extensions";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -117,6 +162,7 @@
 				9FC11D3C16DD13130076F1B0 /* Sources */,
 				9FC11D3D16DD13130076F1B0 /* Frameworks */,
 				9FC11D3E16DD13130076F1B0 /* Resources */,
+				AE6FF41AE9A04B54871853D6 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -169,6 +215,23 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		AE6FF41AE9A04B54871853D6 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9FC11D3C16DD13130076F1B0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -177,6 +240,9 @@
 				9FC11D5016DD13130076F1B0 /* main.m in Sources */,
 				9FC11D5416DD13130076F1B0 /* LBAppDelegate.m in Sources */,
 				9FC11D5D16DD13130076F1B0 /* LBViewController.m in Sources */,
+				9FC11D6C16DD13C20076F1B0 /* LBGithubStatus.m in Sources */,
+				9FC11D6D16DD13C20076F1B0 /* LBGithubStatusMessage.m in Sources */,
+				9FC11D6E16DD13C20076F1B0 /* LBGithubStatusAPIClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,10 +326,12 @@
 		};
 		9FC11D6416DD13130076F1B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 205AB52AF5634294A61F330B /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LBGithubStatus/LBGithubStatus-Prefix.pch";
 				INFOPLIST_FILE = "LBGithubStatus/LBGithubStatus-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -271,10 +339,12 @@
 		};
 		9FC11D6516DD13130076F1B0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 205AB52AF5634294A61F330B /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LBGithubStatus/LBGithubStatus-Prefix.pch";
 				INFOPLIST_FILE = "LBGithubStatus/LBGithubStatus-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -299,6 +369,7 @@
 				9FC11D6516DD13130076F1B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

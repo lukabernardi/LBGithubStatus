@@ -10,4 +10,9 @@
 
 @interface LBViewController : UIViewController
 
+@property (strong, nonatomic) IBOutlet UITextView *messageBodyTextView;
+@property (strong, nonatomic) IBOutlet UILabel *messageDateLabel;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+- (IBAction)updateButtonTapped:(id)sender;
+
 @end

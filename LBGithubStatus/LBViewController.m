@@ -7,6 +7,7 @@
 //
 
 #import "LBViewController.h"
+#import "LBGithubStatusMessage.h"
 
 @interface LBViewController ()
 
@@ -26,4 +27,25 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)updateButtonTapped:(id)sender
+{
+    
+    [self.activityIndicator startAnimating];
+    
+    [LBGithubStatusMessage listStatusMessagesWithCompletion:^(NSArray *messages) {
+        
+        LBGithubStatusMessage *lastMessage = (LBGithubStatusMessage *)messages[0];
+        self.messageBodyTextView.text = lastMessage.body;
+        self.messageDateLabel.text    = [[LBGithubStatusAPIClient dateOutputFormatter] stringFromDate:lastMessage.createdOn];
+        [self.activityIndicator stopAnimating];
+        
+    } error:^(NSError *error) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:nil
+                                                  otherButtonTitles:@"Ok", nil];
+        [alertView show];
+    }];
+}
 @end
