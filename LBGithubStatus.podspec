@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = "LBGithubStatus"
   s.version      = "0.0.1"
-  s.summary      = "A Objective-C wrapper for GitHub Status API based on AFNetworking"
+  s.summary      = "A Objective-C wrapper for GitHub Status API based on AFNetworking."
   s.homepage     = "https://github.com/lukabernardi/LBGithubStatus"
   s.license      = { :type => 'MIT',
                      :file => 'LICENSE' }
