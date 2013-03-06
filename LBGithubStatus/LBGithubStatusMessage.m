@@ -79,7 +79,7 @@ static NSString * const kLBGithubStatusMessageResponseCreatedOnKey  = @"created_
                                                     }
                                                     
                                                     if (completionBlock) {
-                                                        completionBlock(messages);
+                                                        completionBlock([messages copy]);
                                                     }
                                                     
                                                 } else {
