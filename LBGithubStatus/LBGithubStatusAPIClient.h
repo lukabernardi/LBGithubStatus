@@ -7,21 +7,26 @@
 //
 
 #import <AFNetworking/AFNetworking.h>
+#import "LBGithubStatus.h"
 
-typedef enum {
-    LBGithubStatusCodeGood,
-    LBGithubStatusCodeMinor,
-    LBGithubStatusCodeMajor,
-    LBGithubStatusCodeUnknow = 99,
-} LBGithubStatusCode;
+typedef enum  {
+    LBGithubStatusMessageErrorCodeMalformedResponse = 1000,
+} LBGithubStatusMessageErrorCode;
 
 extern NSString * const LBGithubStatusStringGood;
 extern NSString * const LBGithubStatusStringMinor;
 extern NSString * const LBGithubStatusStringMajor;
+extern NSString * const kLBGithubStatusAPIClientErrorDomain;
 
-@interface LBGithubStatusAPIClient : AFHTTPClient
+typedef void(^LBGithubStatusMessageCompletionBlock)(NSArray *messages, NSError *error);
+typedef void(^LBGithubStatusCompletionBlock)(LBGithubStatus *status, NSError *error);
+
+@interface LBGithubStatusAPIClient : AFHTTPSessionManager
 
 + (instancetype)sharedClient;
+
+- (NSURLSessionDataTask *)listStatusMessagesWithCompletion:(LBGithubStatusMessageCompletionBlock)completionBlock;
+- (NSURLSessionDataTask *)fetchGithubStatusWithCompletion:(LBGithubStatusCompletionBlock)completionBlock;
 
 + (LBGithubStatusCode)statusCodeFromString:(NSString *)statusString;
 + (NSDate *)dateFromISO8601String:(NSString *)dateString;

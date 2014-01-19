@@ -7,10 +7,11 @@
 //
 
 #import "LBViewController.h"
+#import "LBGithubStatusAPIClient.h"
 #import "LBGithubStatusMessage.h"
 
-@interface LBViewController ()
 
+@interface LBViewController ()
 @end
 
 @implementation LBViewController
@@ -32,20 +33,22 @@
     
     [self.activityIndicator startAnimating];
     
-    [LBGithubStatusMessage listStatusMessagesWithCompletion:^(NSArray *messages) {
-        
-        LBGithubStatusMessage *lastMessage = (LBGithubStatusMessage *)messages[0];
-        self.messageBodyTextView.text = lastMessage.body;
-        self.messageDateLabel.text    = [[LBGithubStatusAPIClient dateOutputFormatter] stringFromDate:lastMessage.createdOn];
-        [self.activityIndicator stopAnimating];
-        
-    } error:^(NSError *error) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:[error localizedDescription]
-                                                           delegate:nil
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:@"Ok", nil];
-        [alertView show];
+    NSURLSessionDataTask *task = [[LBGithubStatusAPIClient sharedClient] listStatusMessagesWithCompletion:^(NSArray *messages, NSError *error) {
+        if (messages) {
+            LBGithubStatusMessage *lastMessage = (LBGithubStatusMessage *)messages[0];
+            self.messageBodyTextView.text = lastMessage.body;
+            self.messageDateLabel.text    = [[LBGithubStatusAPIClient dateOutputFormatter] stringFromDate:lastMessage.createdOn];
+            [self.activityIndicator stopAnimating];
+        } else {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:[error localizedDescription]
+                                                               delegate:nil
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:@"Ok", nil];
+            [alertView show];
+        }
     }];
+    
+    [task resume];
 }
 @end

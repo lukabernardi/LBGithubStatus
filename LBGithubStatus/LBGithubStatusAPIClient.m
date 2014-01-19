@@ -7,16 +7,22 @@
 //
 
 #import "LBGithubStatusAPIClient.h"
-
 #import <ISO8601DateFormatter/ISO8601DateFormatter.h>
+#import "LBGithubStatusMessage.h"
+#import "LBGithubStatus.h"
 
 static NSString * const kLBGithubStatusAPIBaseURLString = @"https://status.github.com/api/";
+static NSString * const kLBGithubStatusMessagesPath     = @"messages.json";
+static NSString * const kLBGithubStatusPath             = @"status.json";
 
-NSString * const LBGithubStatusStringGood  = @"good";
-NSString * const LBGithubStatusStringMinor = @"minor";
-NSString * const LBGithubStatusStringMajor = @"major";
+NSString * const LBGithubStatusStringGood            = @"good";
+NSString * const LBGithubStatusStringMinor           = @"minor";
+NSString * const LBGithubStatusStringMajor           = @"major";
+NSString * const kLBGithubStatusAPIClientErrorDomain = @"com.lucabernardi.githubstatus.error";
 
 @implementation LBGithubStatusAPIClient
+
+#pragma mark - Init & Dealloc
 
 + (instancetype)sharedClient
 {
@@ -25,21 +31,73 @@ NSString * const LBGithubStatusStringMajor = @"major";
     dispatch_once(&onceToken, ^{
         NSURL *baseURL = [NSURL URLWithString:kLBGithubStatusAPIBaseURLString];
         _sharedClient = [[LBGithubStatusAPIClient alloc] initWithBaseURL:baseURL];
+        _sharedClient.responseSerializer = [AFJSONResponseSerializer serializer];
     });
     
     return _sharedClient;
 }
 
-- (id)initWithBaseURL:(NSURL *)url
+#pragma mark - API
+
+- (NSURLSessionDataTask *)listStatusMessagesWithCompletion:(LBGithubStatusMessageCompletionBlock)completionBlock
 {
-    self = [super initWithBaseURL:url];
-    if (self) {
-        [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-        // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-        [self setDefaultHeader:@"Accept" value:@"application/json"];
-    }
-    return self;
+    NSURLSessionDataTask *task = [self GET:kLBGithubStatusMessagesPath
+                                parameters:nil
+                                   success:^(NSURLSessionDataTask *task, id responseObject) {
+                                       if ((responseObject != nil)
+                                           && [responseObject isKindOfClass:[NSArray class]]) {
+                                           
+                                           NSMutableArray *messages = [NSMutableArray array];
+                                           for (NSDictionary *messageDictionary in responseObject) {
+                                               
+                                               LBGithubStatusMessage *message = [[LBGithubStatusMessage alloc] initWithDictionary:messageDictionary];
+                                               [messages addObject:message];
+                                           }
+                                           
+                                           if (completionBlock) {
+                                               completionBlock([NSArray arrayWithArray:messages], nil);
+                                           }
+                                           
+                                       } else {
+                                           if (completionBlock) {
+                                               completionBlock(nil, [self malformedResponseError]);
+                                           }
+                                       }
+                                   } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                       if (completionBlock) {
+                                           completionBlock(nil, error);
+                                       }
+                                   }];
+    return task;
 }
+
+- (NSURLSessionDataTask *)fetchGithubStatusWithCompletion:(LBGithubStatusCompletionBlock)completionBlock
+{
+    NSURLSessionDataTask *task = [self GET:kLBGithubStatusPath
+                                parameters:nil
+                                   success:^(NSURLSessionDataTask *task, id responseObject) {
+                                       LBGithubStatus *status = [[LBGithubStatus alloc] initWithDictionary:responseObject];
+                                       if (completionBlock) {
+                                           completionBlock(status, nil);
+                                       }
+                                   } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                       if (completionBlock) {
+                                           completionBlock(nil, error);
+                                       }
+                                   }];
+    return task;
+}
+
+#pragma mark - Error
+
+- (NSError *)malformedResponseError
+{
+    NSError *error = [NSError errorWithDomain:kLBGithubStatusAPIClientErrorDomain
+                                         code:LBGithubStatusMessageErrorCodeMalformedResponse
+                                     userInfo:@{NSLocalizedDescriptionKey : @"Error while parsing response"}];
+    return error;
+}
+
 
 #pragma mark - Parsa API data
 
@@ -55,6 +113,9 @@ NSString * const LBGithubStatusStringMajor = @"major";
     
     return LBGithubStatusCodeUnknow;
 }
+
+
+#pragma mark - Date Formatter
 
 + (NSDate *)dateFromISO8601String:(NSString *)dateString
 {

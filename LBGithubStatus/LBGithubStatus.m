@@ -7,12 +7,10 @@
 //
 
 #import "LBGithubStatus.h"
-
-
-static NSString * const kLBGithubStatusPath = @"status.json";
+#import "LBGithubStatusAPIClient.h"
 
 // API Response key
-static NSString * const kLBGithubStatusResponseStatusKey     = @"status";
+static NSString * const kLBGithubStatusResponseStatusKey      = @"status";
 static NSString * const kLBGithubStatusResponseLastUpdatedKey = @"last_updated";
 
 
@@ -27,15 +25,14 @@ static NSString * const kLBGithubStatusResponseLastUpdatedKey = @"last_updated";
 
 #pragma mark - Init & Dealloc
 
-- (id)initWithAttributes:(NSDictionary *)attributes
+- (id)initWithDictionary:(NSDictionary *)dictionary
 {
     self = [super init];
     if (self) {
-        NSString *statusString = [attributes valueForKey:kLBGithubStatusResponseStatusKey];
-        _status     = statusString;
-        _statusCode = [LBGithubStatusAPIClient statusCodeFromString:statusString];
-        
-        NSString *lastUpdatedString = [attributes valueForKey:kLBGithubStatusResponseLastUpdatedKey];
+        NSString *statusString      = [dictionary valueForKey:kLBGithubStatusResponseStatusKey];
+        NSString *lastUpdatedString = [dictionary valueForKey:kLBGithubStatusResponseLastUpdatedKey];
+        _status      = statusString;
+        _statusCode  = [LBGithubStatusAPIClient statusCodeFromString:statusString];
         _lastUpdated = [LBGithubStatusAPIClient dateFromISO8601String:lastUpdatedString];
     }
     return self;
@@ -43,34 +40,13 @@ static NSString * const kLBGithubStatusResponseLastUpdatedKey = @"last_updated";
 
 #pragma mark - NSObject
 
-- (NSString *) description
+- (NSString *)debugDescription
 {
     return [NSString stringWithFormat:@"<%@: 0x%x \n\tStatus:%d; \n\tLast Updated:%@>",
                 NSStringFromClass([self class]),
                 (unsigned int)self,
                 self.statusCode,
                 self.lastUpdated];
-}
-
-#pragma mark - Remote API
-
-+ (void)fetchGithubStatusWithCompletion:(LBGithubStatusCompletionBlock)completionBlock
-                             error:(LBGithubStatusErrorBlock)errorBlock
-{
-    [[LBGithubStatusAPIClient sharedClient] getPath:kLBGithubStatusPath
-                                         parameters:nil
-                                            success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                
-                                                LBGithubStatus *status = [[LBGithubStatus alloc] initWithAttributes:responseObject];
-                                                if (completionBlock) {
-                                                    completionBlock(status);
-                                                }
-                                            }
-                                            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                if (errorBlock) {
-                                                    errorBlock(error);
-                                                }
-                                            }];
 }
 
 @end

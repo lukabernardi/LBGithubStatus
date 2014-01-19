@@ -7,10 +7,7 @@
 //
 
 #import "LBGithubStatusMessage.h"
-
-NSString * const kLBGithubStatusMessageErrorDomain = @"com.lucabernardi.githubstatus.error";
-
-static NSString * const kLBGithubStatusMessagesPath = @"messages.json";
+#import "LBGithubStatusAPIClient.h"
 
 // API Response key
 static NSString * const kLBGithubStatusMessageResponseStatusKey     = @"status";
@@ -19,11 +16,9 @@ static NSString * const kLBGithubStatusMessageResponseCreatedOnKey  = @"created_
 
 
 @interface LBGithubStatusMessage ()
-
-@property (readwrite, assign, nonatomic) LBGithubStatusCode status;
-@property (readwrite, copy, nonatomic) NSString *body;
-@property (readwrite, strong, nonatomic) NSDate *createdOn;
-
+@property (nonatomic, assign) LBGithubStatusCode status;
+@property (nonatomic, copy) NSString *body;
+@property (nonatomic, strong) NSDate *createdOn;
 @end
 
 
@@ -31,16 +26,15 @@ static NSString * const kLBGithubStatusMessageResponseCreatedOnKey  = @"created_
 
 #pragma mark - Init & Dealloc
 
-- (id)initWithAttributes:(NSDictionary *)attributes
+- (id)initWithDictionary:(NSDictionary *)dictionary
 {
     self = [super init];
     if (self) {
-        NSString *statusString = [attributes valueForKey:kLBGithubStatusMessageResponseStatusKey];
-        _status = [LBGithubStatusAPIClient statusCodeFromString:statusString];
-        
-        _body = [attributes valueForKey:kLBGithubStatusMessageResponseBodyKey];
-        
-        NSString *createdOnString = [attributes valueForKey:kLBGithubStatusMessageResponseCreatedOnKey];
+        NSString *statusString    = [dictionary valueForKey:kLBGithubStatusMessageResponseStatusKey];
+        NSString *createdOnString = [dictionary valueForKey:kLBGithubStatusMessageResponseCreatedOnKey];
+        NSString *bodyString      = [dictionary valueForKey:kLBGithubStatusMessageResponseBodyKey];
+        _status    = [LBGithubStatusAPIClient statusCodeFromString:statusString];
+        _body      = bodyString;
         _createdOn = [LBGithubStatusAPIClient dateFromISO8601String:createdOnString];
     }
     return self;
@@ -56,47 +50,6 @@ static NSString * const kLBGithubStatusMessageResponseCreatedOnKey  = @"created_
                 self.status,
                 self.body,
                 self.createdOn];
-}
-
-#pragma mark - Remote API
-
-+ (void)listStatusMessagesWithCompletion:(LBGithubStatusMessageCompletionBlock)completionBlock
-                                   error:(LBGithubStatusMessageErrorBlock)errorBlock
-{
-    
-    [[LBGithubStatusAPIClient sharedClient] getPath:kLBGithubStatusMessagesPath
-                                         parameters:nil
-                                            success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                
-                                                if ((responseObject != nil)
-                                                    && [responseObject isKindOfClass:[NSArray class]]) {
-                                                    
-                                                    NSMutableArray *messages = [NSMutableArray array];
-                                                    for (NSDictionary *messageDictionary in responseObject) {
-                                                        
-                                                        LBGithubStatusMessage *message = [[LBGithubStatusMessage alloc] initWithAttributes:messageDictionary];
-                                                        [messages addObject:message];
-                                                    }
-                                                    
-                                                    if (completionBlock) {
-                                                        completionBlock([messages copy]);
-                                                    }
-                                                    
-                                                } else {
-                                                    NSError *error = [NSError errorWithDomain:kLBGithubStatusMessageErrorDomain
-                                                                                         code:LBGithubStatusMessageErrorCodeMalformedResponse
-                                                                                     userInfo:@{NSLocalizedDescriptionKey : @"Error while parsing response"}];
-                                                    if (errorBlock) {
-                                                        errorBlock(error);
-                                                    }
-                                                }
-
-                                            }
-                                            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                if (errorBlock) {
-                                                    errorBlock(error);
-                                                }
-                                            }];
 }
 
 @end

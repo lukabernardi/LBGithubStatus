@@ -7,29 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LBGithubStatusAPIClient.h"
-
-@class LBGithubStatusMessage;
-
-typedef void(^LBGithubStatusMessageCompletionBlock)(NSArray *);
-typedef void(^LBGithubStatusMessageErrorBlock)(NSError *);
-
-extern NSString * const kLBGithubStatusMessageErrorDomain;
-
-typedef enum  {
-    LBGithubStatusMessageErrorCodeMalformedResponse = 1000,
-} LBGithubStatusMessageErrorCode;
-
+#import "LBGithubStatus.h"
 
 @interface LBGithubStatusMessage : NSObject
 
-@property (readonly, assign, nonatomic) LBGithubStatusCode status;
-@property (readonly, copy,   nonatomic) NSString *body;
-@property (readonly, strong, nonatomic) NSDate *createdOn;
+@property(nonatomic, readonly, assign) LBGithubStatusCode status;
+@property(nonatomic, readonly, copy) NSString *body;
+@property(nonatomic, readonly, strong) NSDate *createdOn;
 
-/** 
- Retrive all the last status messages available
- */
-+ (void)listStatusMessagesWithCompletion:(LBGithubStatusMessageCompletionBlock)completionBlock
-                                   error:(LBGithubStatusMessageErrorBlock)errorBlock;
+- (id)initWithDictionary:(NSDictionary *)dictionary;
+
 @end

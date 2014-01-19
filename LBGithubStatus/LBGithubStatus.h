@@ -7,23 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LBGithubStatusAPIClient.h"
 
-@class LBGithubStatus;
-
-typedef void(^LBGithubStatusCompletionBlock)(LBGithubStatus *);
-typedef void(^LBGithubStatusErrorBlock)(NSError *);
-
+typedef NS_ENUM(NSUInteger, LBGithubStatusCode) {
+    LBGithubStatusCodeGood,
+    LBGithubStatusCodeMinor,
+    LBGithubStatusCodeMajor,
+    LBGithubStatusCodeUnknow = 99,
+};
 
 @interface LBGithubStatus : NSObject
 
-@property (readonly, copy,   nonatomic) NSString *status;
-@property (readonly, assign, nonatomic) LBGithubStatusCode statusCode;
-@property (readonly, strong, nonatomic) NSDate *lastUpdated;
+@property (nonatomic, readonly, copy) NSString *status;
+@property (nonatomic, readonly, assign) LBGithubStatusCode statusCode;
+@property (nonatomic, readonly, strong) NSDate *lastUpdated;
 
-/**
- Retrive the current github status
- */
-+ (void)fetchGithubStatusWithCompletion:(LBGithubStatusCompletionBlock)completionBlock
-                                  error:(LBGithubStatusErrorBlock)errorBlock;
+- (id)initWithDictionary:(NSDictionary *)dictionary;
+
 @end
